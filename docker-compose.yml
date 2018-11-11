@@ -1,0 +1,33 @@
+version: '2'
+services:
+
+    #####################
+    # OCTOBER
+    #####################
+    october:
+       #container_name: october-www
+        build         : ./build/
+        links         :
+            - db
+        volumes       :
+            - ./html/:/var/www/html/
+        ports:
+            - 8000:80
+        environment:
+            - OCTOBER_DB_DRIVER=mysql
+            - OCTOBER_DB_HOST=db
+            - OCTOBER_DB_PORT=3306
+            - OCTOBER_DB_NAME=october_cms
+            - OCTOBER_DB_USER=root
+            - OCTOBER_DB_PASSWORD=root
+
+    #####################
+    # DATABASE
+    #####################
+    db:
+       #container_name: october-db
+        image         : percona:5.6-stretch
+        volumes       :
+            - ./database:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
